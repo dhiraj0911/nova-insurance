@@ -1,16 +1,22 @@
 use anchor_lang::prelude::*;
 
 /// Pool types for different insurance categories
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
 pub enum PoolType {
     Medical,
     Weather,
     Crop,
+    General,
+}
+
+impl Space for PoolType {
+    const INIT_SPACE: usize = 1; // enum discriminant
 }
 
 /// Main insurance pool account
 /// Holds all configuration and state for a specific insurance pool
 #[account]
+#[derive(InitSpace)]
 pub struct InsurancePool {
     /// Unique identifier for this pool
     pub pool_id: Pubkey,
@@ -68,6 +74,7 @@ impl InsurancePool {
 
 /// User coverage account tracking individual member's insurance status
 #[account]
+#[derive(InitSpace)]
 pub struct UserCoverage {
     /// User's wallet address
     pub user: Pubkey,
@@ -113,6 +120,7 @@ impl UserCoverage {
 
 /// Validator stake account for community claim validators
 #[account]
+#[derive(InitSpace)]
 pub struct ValidatorStake {
     /// Validator's wallet address
     pub validator: Pubkey,
