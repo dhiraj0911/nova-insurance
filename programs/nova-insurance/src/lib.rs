@@ -61,4 +61,21 @@ pub mod nova_insurance {
             description,
         )
     }
+
+    /// Stake SOL to become a validator
+    pub fn stake_as_validator(
+        ctx: Context<StakeAsValidator>,
+        stake_amount: u64,
+    ) -> Result<()> {
+        instructions::stake_as_validator(ctx, stake_amount)
+    }
+
+    /// Validate a claim (approve or reject)
+    pub fn validate_claim(
+        ctx: Context<ValidateClaim>,
+        approve: bool,
+        reason: String,
+    ) -> Result<()> {
+        instructions::validate_claim(ctx, approve, reason)
+    }
 }

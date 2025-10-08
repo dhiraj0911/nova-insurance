@@ -14,6 +14,7 @@ pub fn initialize_pool(
     claim_period: i64,
 ) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
+    let validator_registry = &mut ctx.accounts.validator_registry;
     let clock = Clock::get()?;
 
     // Validate inputs
@@ -44,6 +45,12 @@ pub fn initialize_pool(
     pool.min_validators = min_validators;
     pool.created_at = clock.unix_timestamp;
     pool.bump = ctx.bumps.pool;
+
+    // Initialize validator registry
+    validator_registry.pool = pool_key;
+    validator_registry.validators = Vec::new();
+    validator_registry.total_validators = 0;
+    validator_registry.bump = ctx.bumps.validator_registry;
 
     emit!(PoolCreatedEvent {
         pool_id: pool_key,
@@ -202,6 +209,15 @@ pub struct InitializePool<'info> {
         bump
     )]
     pub pool_vault: Account<'info, TokenAccount>,
+
+    #[account(
+        init,
+        payer = authority,
+        space = 8 + ValidatorRegistry::INIT_SPACE,
+        seeds = [b"validator_registry", pool.key().as_ref()],
+        bump
+    )]
+    pub validator_registry: Account<'info, ValidatorRegistry>,
 
     pub usdc_mint: Account<'info, token::Mint>,
 

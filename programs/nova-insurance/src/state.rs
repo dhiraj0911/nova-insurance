@@ -209,6 +209,33 @@ impl ValidatorStake {
     pub const MAX_REPUTATION: u32 = 10000;
 }
 
+/// Validator registry for a pool - tracks all validators
+#[account]
+#[derive(InitSpace)]
+pub struct ValidatorRegistry {
+    /// The pool this registry belongs to
+    pub pool: Pubkey,
+    
+    /// List of active validators (max 100)
+    #[max_len(100)]
+    pub validators: Vec<Pubkey>,
+    
+    /// Total number of validators
+    pub total_validators: u32,
+    
+    /// PDA bump seed
+    pub bump: u8,
+}
+
+impl ValidatorRegistry {
+    /// Calculate space needed for ValidatorRegistry account
+    pub const LEN: usize = 8 + // discriminator
+        32 + // pool
+        4 + (32 * 100) + // validators (vec + max 100 pubkeys)
+        4 + // total_validators
+        1; // bump
+}
+
 /// Claim request account for insurance claims
 #[account]
 #[derive(InitSpace)]
