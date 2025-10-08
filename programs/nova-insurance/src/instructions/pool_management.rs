@@ -39,6 +39,7 @@ pub fn initialize_pool(
     pool.coverage_amount = coverage_amount;
     pool.total_pooled = 0;
     pool.total_members = 0;
+    pool.active_claims = 0;
     pool.claim_period = claim_period;
     pool.min_validators = min_validators;
     pool.created_at = clock.unix_timestamp;

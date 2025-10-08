@@ -44,4 +44,21 @@ pub mod nova_insurance {
     pub fn pay_premium(ctx: Context<PayPremium>) -> Result<()> {
         instructions::pay_premium(ctx)
     }
+
+    /// Submit a new insurance claim
+    pub fn submit_claim(
+        ctx: Context<SubmitClaim>,
+        incident_type: IncidentType,
+        amount_requested: u64,
+        incident_timestamp: i64,
+        description: String,
+    ) -> Result<()> {
+        instructions::submit_claim(
+            ctx,
+            incident_type,
+            amount_requested,
+            incident_timestamp,
+            description,
+        )
+    }
 }

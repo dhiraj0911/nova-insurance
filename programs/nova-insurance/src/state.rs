@@ -13,6 +13,49 @@ impl Space for PoolType {
     const INIT_SPACE: usize = 1; // enum discriminant
 }
 
+/// Incident types for claims
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
+pub enum IncidentType {
+    MedicalEmergency,
+    NaturalDisaster,
+    Accident,
+    CropFailure,
+    PropertyDamage,
+    Other,
+}
+
+impl Space for IncidentType {
+    const INIT_SPACE: usize = 1; // enum discriminant
+}
+
+/// Claim status tracking
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, Debug)]
+pub enum ClaimStatus {
+    Pending,
+    UnderValidation,
+    Approved,
+    Rejected,
+    Distributed,
+    Queued,
+}
+
+impl Space for ClaimStatus {
+    const INIT_SPACE: usize = 1; // enum discriminant
+}
+
+/// Individual validation record
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
+pub struct Validation {
+    pub validator: Pubkey,
+    pub approved: bool,
+    pub reason: String,
+    pub timestamp: i64,
+}
+
+impl Space for Validation {
+    const INIT_SPACE: usize = 32 + 1 + 4 + 200 + 8; // validator + approved + string len + reason (max 200) + timestamp
+}
+
 /// Main insurance pool account
 /// Holds all configuration and state for a specific insurance pool
 #[account]
@@ -42,6 +85,9 @@ pub struct InsurancePool {
     /// Number of active members in the pool
     pub total_members: u32,
     
+    /// Number of active claims being processed
+    pub active_claims: u32,
+    
     /// Time window for claims (in seconds)
     pub claim_period: i64,
     
@@ -66,6 +112,7 @@ impl InsurancePool {
         8 + // coverage_amount
         8 + // total_pooled
         4 + // total_members
+        4 + // active_claims
         8 + // claim_period
         1 + // min_validators
         8 + // created_at
@@ -160,4 +207,85 @@ impl ValidatorStake {
     
     /// Maximum reputation score
     pub const MAX_REPUTATION: u32 = 10000;
+}
+
+/// Claim request account for insurance claims
+#[account]
+#[derive(InitSpace)]
+pub struct ClaimRequest {
+    /// Unique claim identifier
+    pub claim_id: Pubkey,
+    
+    /// User making the claim
+    pub claimant: Pubkey,
+    
+    /// Insurance pool for this claim
+    pub pool: Pubkey,
+    
+    /// Amount requested in USDC
+    pub amount_requested: u64,
+    
+    /// Type of incident
+    pub incident_type: IncidentType,
+    
+    /// Timestamp of the incident
+    pub incident_timestamp: i64,
+    
+    /// IPFS hash of claim documentation (max 100 chars)
+    #[max_len(100)]
+    pub description: String,
+    
+    /// Validators assigned via VRF (max 10 validators)
+    #[max_len(10)]
+    pub validators_assigned: Vec<Pubkey>,
+    
+    /// Validation records (max 10 validations)
+    #[max_len(10)]
+    pub validations: Vec<Validation>,
+    
+    /// Number of approvals received
+    pub approvals: u8,
+    
+    /// Number of rejections received
+    pub rejections: u8,
+    
+    /// Current status of the claim
+    pub status: ClaimStatus,
+    
+    /// VRF result used for validator selection
+    pub vrf_result: Option<[u8; 32]>,
+    
+    /// Timestamp when claim was created
+    pub created_at: i64,
+    
+    /// Timestamp when claim was resolved
+    pub resolved_at: Option<i64>,
+    
+    /// Actual payout amount (may differ from requested)
+    pub payout_amount: Option<u64>,
+    
+    /// PDA bump seed
+    pub bump: u8,
+}
+
+impl ClaimRequest {
+    /// Calculate space needed for ClaimRequest account
+    pub const LEN: usize = 8 + // discriminator
+        32 + // claim_id
+        32 + // claimant
+        32 + // pool
+        8 + // amount_requested
+        1 + // incident_type
+        8 + // incident_timestamp
+        4 + 100 + // description (vec + max 100 chars)
+        4 + (32 * 10) + // validators_assigned (vec + max 10 pubkeys)
+        4 + (245 * 10) + // validations (vec + max 10 validations)
+        1 + // approvals
+        1 + // rejections
+        1 + // status
+        1 + 32 + // vrf_result (option + 32 bytes)
+        8 + // created_at
+        1 + 8 + // resolved_at (option + i64)
+        1 + 8 + // payout_amount (option + u64)
+        1; // bump
 }
