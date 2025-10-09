@@ -91,4 +91,39 @@ pub mod nova_insurance {
     ) -> Result<()> {
         instructions::request_validator_selection(ctx, claim_id)
     }
+
+    /// Fulfill VRF callback for validator selection
+    pub fn fulfill_validator_selection(
+        ctx: Context<FulfillValidatorSelection>,
+        randomness: [u8; 32],
+    ) -> Result<()> {
+        instructions::fulfill_validator_selection(ctx, randomness)
+    }
+
+    /// Initialize distribution queue for a pool
+    pub fn initialize_distribution_queue(
+        ctx: Context<InitializeDistributionQueue>,
+    ) -> Result<()> {
+        instructions::initialize_distribution_queue(ctx)
+    }
+
+    /// Add approved claim to distribution queue
+    pub fn add_to_distribution_queue(
+        ctx: Context<AddToDistributionQueue>,
+    ) -> Result<()> {
+        instructions::add_to_distribution_queue(ctx)
+    }
+
+    /// Distribute claims (normal or oversubscribed)
+    pub fn distribute_claims(
+        ctx: Context<DistributeClaims>,
+        randomness: Option<[u8; 32]>,
+    ) -> Result<()> {
+        instructions::distribute_claims(ctx, randomness)
+    }
+
+    /// Payout individual claim
+    pub fn payout_claim(ctx: Context<PayoutClaim>) -> Result<()> {
+        instructions::payout_claim(ctx)
+    }
 }

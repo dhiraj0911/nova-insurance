@@ -359,3 +359,121 @@ impl ClaimRequest {
         1 + 8 + // payout_amount (option + u64)
         1; // bump
 }
+
+/// Distribution queue for managing oversubscribed claims
+/// When total approved claims exceed pool funds, this manages fair distribution
+#[account]
+#[derive(InitSpace)]
+pub struct DistributionQueue {
+    /// The pool this queue belongs to
+    pub pool: Pubkey,
+    
+    /// Total approved claims awaiting distribution
+    pub total_approved_claims: u32,
+    
+    /// Total amount requested by approved claims
+    pub total_requested_amount: u64,
+    
+    /// Available funds in pool for distribution
+    pub available_funds: u64,
+    
+    /// List of approved claims pending payout (max 100)
+    #[max_len(100)]
+    pub pending_claims: Vec<Pubkey>,
+    
+    /// Claims selected for payout in current round (max 50)
+    #[max_len(50)]
+    pub selected_claims: Vec<Pubkey>,
+    
+    /// VRF result for current distribution round
+    pub vrf_result: Option<[u8; 32]>,
+    
+    /// Whether distribution is oversubscribed
+    pub is_oversubscribed: bool,
+    
+    /// Current distribution round number
+    pub distribution_round: u64,
+    
+    /// Timestamp of last distribution
+    pub last_distribution: i64,
+    
+    /// PDA bump seed
+    pub bump: u8,
+}
+
+impl DistributionQueue {
+    /// Calculate space needed for DistributionQueue account
+    pub const LEN: usize = 8 + // discriminator
+        32 + // pool
+        4 + // total_approved_claims
+        8 + // total_requested_amount
+        8 + // available_funds
+        4 + (32 * 100) + // pending_claims (vec + max 100 pubkeys)
+        4 + (32 * 50) + // selected_claims (vec + max 50 pubkeys)
+        1 + 32 + // vrf_result (option + 32 bytes)
+        1 + // is_oversubscribed
+        8 + // distribution_round
+        8 + // last_distribution
+        1; // bump
+}
+
+/// Priority scoring for claim distribution (basic structure for future enhancement)
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]
+pub struct PriorityScore {
+    /// Base priority score
+    pub base_score: u32,
+    
+    /// User's premium payment history multiplier
+    pub payment_history_score: u32,
+    
+    /// Claim urgency factor
+    pub urgency_score: u32,
+    
+    /// Time in queue factor
+    pub time_in_queue_score: u32,
+    
+    /// Total calculated priority
+    pub total_score: u32,
+}
+
+impl Space for PriorityScore {
+    const INIT_SPACE: usize = 4 + 4 + 4 + 4 + 4; // 5 u32 fields
+}
+
+impl PriorityScore {
+    /// Calculate basic priority score
+    pub fn calculate(
+        premiums_paid: u64,
+        time_in_queue: i64,
+        incident_type: IncidentType,
+    ) -> Self {
+        // Base score from incident type
+        let base_score = match incident_type {
+            IncidentType::MedicalEmergency => 1000,
+            IncidentType::NaturalDisaster => 800,
+            IncidentType::Accident => 600,
+            IncidentType::CropFailure => 500,
+            IncidentType::PropertyDamage => 400,
+            IncidentType::Other => 300,
+        };
+        
+        // Payment history score (more premiums = higher priority)
+        let payment_history_score = (premiums_paid / 1_000_000).min(500) as u32; // Cap at 500
+        
+        // Time in queue score (longer wait = higher priority)
+        let time_in_queue_score = (time_in_queue / 86400).min(200) as u32; // 1 point per day, cap at 200
+        
+        // Urgency score (currently same as base, can be enhanced)
+        let urgency_score = base_score / 2;
+        
+        let total_score = base_score + payment_history_score + time_in_queue_score + urgency_score;
+        
+        Self {
+            base_score,
+            payment_history_score,
+            urgency_score,
+            time_in_queue_score,
+            total_score,
+        }
+    }
+}
