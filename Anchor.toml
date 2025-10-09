@@ -1,12 +1,15 @@
 [toolchain]
-anchor_version = "0.29.0"
+anchor_version = "0.28.0"
 
 [features]
 resolution = true
 skip-lint = false
 
 [programs.localnet]
-nova_insurance = "DB1ZyxKho5hwQPd6r7C1FSTifw5N7G5YYh5gyhvcpGN5"
+nova_insurance = "HAy7Pjbv9R4oA5hjqsXSRVvuwKaarrYEZ8oR28bAVypz"
+
+[programs.devnet]
+nova_insurance = "HAy7Pjbv9R4oA5hjqsXSRVvuwKaarrYEZ8oR28bAVypz"
 
 [registry]
 url = "https://api.apr.dev"

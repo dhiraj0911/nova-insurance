@@ -87,7 +87,7 @@ pub fn submit_claim(
     claim.created_at = clock.unix_timestamp;
     claim.resolved_at = None;
     claim.payout_amount = None;
-    claim.bump = ctx.bumps.claim_request;
+    claim.bump = *ctx.bumps.get("claim_request").unwrap();
 
     // Update pool active claims counter
     pool.active_claims = pool

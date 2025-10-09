@@ -78,4 +78,17 @@ pub mod nova_insurance {
     ) -> Result<()> {
         instructions::validate_claim(ctx, approve, reason)
     }
+
+    /// Initialize VRF state for a pool
+    pub fn initialize_vrf_state(ctx: Context<InitializeVrfState>) -> Result<()> {
+        instructions::initialize_vrf_state(ctx)
+    }
+
+    /// Request validator selection using VRF
+    pub fn request_validator_selection(
+        ctx: Context<RequestValidatorSelection>,
+        claim_id: Pubkey,
+    ) -> Result<()> {
+        instructions::request_validator_selection(ctx, claim_id)
+    }
 }

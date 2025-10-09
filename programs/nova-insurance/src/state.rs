@@ -236,6 +236,49 @@ impl ValidatorRegistry {
         1; // bump
 }
 
+/// VRF state for random validator selection
+#[account]
+#[derive(InitSpace)]
+pub struct VrfState {
+    /// The pool this VRF state belongs to
+    pub pool: Pubkey,
+    
+    /// Switchboard VRF account
+    pub switchboard_vrf: Pubkey,
+    
+    /// Authority for VRF requests
+    pub authority: Pubkey,
+    
+    /// Last randomness result
+    pub last_randomness: Option<[u8; 32]>,
+    
+    /// Last timestamp VRF was called
+    pub last_timestamp: i64,
+    
+    /// Pending claims awaiting validator assignment (max 50)
+    #[max_len(50)]
+    pub pending_claims: Vec<Pubkey>,
+    
+    /// Total VRF requests completed
+    pub requests_completed: u64,
+    
+    /// PDA bump seed
+    pub bump: u8,
+}
+
+impl VrfState {
+    /// Calculate space needed for VrfState account
+    pub const LEN: usize = 8 + // discriminator
+        32 + // pool
+        32 + // switchboard_vrf
+        32 + // authority
+        1 + 32 + // last_randomness (option + 32 bytes)
+        8 + // last_timestamp
+        4 + (32 * 50) + // pending_claims (vec + max 50 pubkeys)
+        8 + // requests_completed
+        1; // bump
+}
+
 /// Claim request account for insurance claims
 #[account]
 #[derive(InitSpace)]

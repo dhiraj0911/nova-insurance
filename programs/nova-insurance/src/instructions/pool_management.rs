@@ -44,13 +44,13 @@ pub fn initialize_pool(
     pool.claim_period = claim_period;
     pool.min_validators = min_validators;
     pool.created_at = clock.unix_timestamp;
-    pool.bump = ctx.bumps.pool;
+    pool.bump = *ctx.bumps.get("pool").unwrap();
 
     // Initialize validator registry
     validator_registry.pool = pool_key;
     validator_registry.validators = Vec::new();
     validator_registry.total_validators = 0;
-    validator_registry.bump = ctx.bumps.validator_registry;
+    validator_registry.bump = *ctx.bumps.get("validator_registry").unwrap();
 
     emit!(PoolCreatedEvent {
         pool_id: pool_key,
@@ -106,7 +106,7 @@ pub fn join_pool(ctx: Context<JoinPool>, coverage_amount: u64) -> Result<()> {
     user_coverage.coverage_amount = coverage_amount;
     user_coverage.claims_made = 0;
     user_coverage.joined_at = clock.unix_timestamp;
-    user_coverage.bump = ctx.bumps.user_coverage;
+    user_coverage.bump = *ctx.bumps.get("user_coverage").unwrap();
 
     // Update pool stats
     pool.total_pooled = pool

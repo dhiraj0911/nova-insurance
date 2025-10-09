@@ -40,7 +40,7 @@ pub fn stake_as_validator(
     validator_stake.successful_validations = 0;
     validator_stake.reputation_score = ValidatorStake::INITIAL_REPUTATION;
     validator_stake.last_validation = 0;
-    validator_stake.bump = ctx.bumps.validator_stake;
+    validator_stake.bump = *ctx.bumps.get("validator_stake").unwrap();
 
     // Register validator in pool's validator registry
     let validator_registry = &mut ctx.accounts.validator_registry;
