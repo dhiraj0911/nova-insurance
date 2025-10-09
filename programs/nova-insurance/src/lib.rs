@@ -126,4 +126,14 @@ pub mod nova_insurance {
     pub fn payout_claim(ctx: Context<PayoutClaim>) -> Result<()> {
         instructions::payout_claim(ctx)
     }
+
+    /// Deposit idle pool funds to yield vault (Kamino)
+    pub fn deposit_to_yield(ctx: Context<DepositToYield>, amount: u64) -> Result<()> {
+        instructions::deposit_to_yield(ctx, amount)
+    }
+
+    /// Withdraw funds from yield vault back to pool
+    pub fn withdraw_from_yield(ctx: Context<WithdrawFromYield>, amount: u64) -> Result<()> {
+        instructions::withdraw_from_yield(ctx, amount)
+    }
 }

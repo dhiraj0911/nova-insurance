@@ -73,6 +73,9 @@ pub struct InsurancePool {
     /// USDC vault address where premiums are stored
     pub vault: Pubkey,
     
+    /// Kamino yield vault address (optional for yield integration)
+    pub yield_vault: Option<Pubkey>,
+    
     /// Monthly premium amount in USDC (lamports)
     pub premium_amount: u64,
     
@@ -94,6 +97,15 @@ pub struct InsurancePool {
     /// Minimum number of validators required for claim verification
     pub min_validators: u8,
     
+    /// Amount currently deposited in yield vault
+    pub yield_deposited: u64,
+    
+    /// Total yield earned from yield vault
+    pub yield_earned: u64,
+    
+    /// Timestamp of last yield update
+    pub last_yield_update: i64,
+    
     /// Timestamp when pool was created
     pub created_at: i64,
     
@@ -108,6 +120,7 @@ impl InsurancePool {
         1 + // pool_type (enum)
         32 + // authority
         32 + // vault
+        1 + 32 + // yield_vault (option + pubkey)
         8 + // premium_amount
         8 + // coverage_amount
         8 + // total_pooled
@@ -115,6 +128,9 @@ impl InsurancePool {
         4 + // active_claims
         8 + // claim_period
         1 + // min_validators
+        8 + // yield_deposited
+        8 + // yield_earned
+        8 + // last_yield_update
         8 + // created_at
         1; // bump
 }

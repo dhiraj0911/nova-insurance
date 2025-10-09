@@ -36,6 +36,7 @@ pub fn initialize_pool(
     pool.pool_type = pool_type;
     pool.authority = authority_key;
     pool.vault = vault_key;
+    pool.yield_vault = None; // Initialize as None, can be set later
     pool.premium_amount = premium_amount;
     pool.coverage_amount = coverage_amount;
     pool.total_pooled = 0;
@@ -43,6 +44,9 @@ pub fn initialize_pool(
     pool.active_claims = 0;
     pool.claim_period = claim_period;
     pool.min_validators = min_validators;
+    pool.yield_deposited = 0;
+    pool.yield_earned = 0;
+    pool.last_yield_update = clock.unix_timestamp;
     pool.created_at = clock.unix_timestamp;
     pool.bump = *ctx.bumps.get("pool").unwrap();
 
