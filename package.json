@@ -2,7 +2,13 @@
   "license": "ISC",  
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
-    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
+    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
+    "build": "anchor build",
+    "deploy:devnet": "anchor deploy --provider.cluster devnet",
+    "test": "anchor test --skip-local-validator",
+    "test:logs": "anchor test --skip-local-validator -- --nocapture",
+    "keys": "anchor keys list",
+    "clean": "anchor clean && rm -rf target/deploy && rm -rf target/idl"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1"
