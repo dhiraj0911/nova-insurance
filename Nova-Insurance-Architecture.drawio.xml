@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="GitHub Copilot" version="28.2.5">
+  <diagram name="Nova Insurance Complete Architecture" id="nova-insurance-architecture">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title Section -->
+        <mxCell id="title" value="NOVA INSURANCE - Decentralized P2P Insurance Protocol on Solana" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=20;fontStyle=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="1000" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 1: POOL MANAGEMENT ========== -->
+        <mxCell id="pool_layer" value="LAYER 1: POOL MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="420" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="init_pool" value="initialize_pool()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="pool_layer">
+          <mxGeometry x="20" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="join_pool" value="join_pool()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="pool_layer">
+          <mxGeometry x="220" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pay_premium" value="pay_premium()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="pool_layer">
+          <mxGeometry x="20" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pool_state" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• InsurancePool PDA&#xa;• UserCoverage PDA&#xa;• Pool Vault (SPL Token)&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Total Pooled: Sum of all premiums&#xa;• Active Members: Users with coverage&#xa;• Pool Authority: Admin (Dave)&#xa;• Coverage Period: Start/End dates&#xa;• Min/Max Coverage: Limits per user" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="pool_layer">
+          <mxGeometry x="20" y="200" width="380" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 2: VALIDATOR MANAGEMENT ========== -->
+        <mxCell id="validator_layer" value="LAYER 2: VALIDATOR MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="500" y="100" width="420" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="stake_validator" value="stake_as_validator()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="validator_layer">
+          <mxGeometry x="20" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="validate_claim" value="validate_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="validator_layer">
+          <mxGeometry x="220" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="validator_state" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• ValidatorStake PDA&#xa;• ValidatorRegistry PDA&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Reputation Score: 0-10000&#xa;  - Increases: +100 per correct validation&#xa;  - Decreases: -100 per wrong validation&#xa;• Stake Amount: SOL locked by validator&#xa;• Validation Count: Total validations&#xa;• Slashing: 5% of stake on false validation&#xa;━━━━━━━━━━━━━━━&#xa;VALIDATORS:&#xa;Bob: reputation_score = 5000&#xa;Carol: reputation_score = 5000&#xa;Eve: reputation_score = 5000" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="validator_layer">
+          <mxGeometry x="20" y="130" width="380" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 3: CLAIMS MANAGEMENT ========== -->
+        <mxCell id="claims_layer" value="LAYER 3: CLAIMS MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="960" y="100" width="420" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="submit_claim" value="submit_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="claims_layer">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="claim_state" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• ClaimRequest PDA&#xa;━━━━━━━━━━━━━━━&#xa;CLAIM STATUS FLOW:&#xa;Pending → UnderValidation → Approved → Queued → Distributed&#xa;        ↓ (if rejected)&#xa;    Rejected&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Amount Requested: USDC amount&#xa;• Validators Assigned: Via VRF (3 random)&#xa;• Validations: Array of validator votes&#xa;• Approvals/Rejections: Vote counts&#xa;• Claim Timestamp: Submission time&#xa;• Evidence Hash: IPFS/Arweave link&#xa;━━━━━━━━━━━━━━━&#xa;EXAMPLE: Alice's Medical Claim&#xa;• Amount: 3000 USDC&#xa;• Status: Pending → Approved&#xa;• Validators: Bob, Carol, Eve" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="claims_layer">
+          <mxGeometry x="20" y="130" width="380" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 4: VRF INTEGRATION ========== -->
+        <mxCell id="vrf_layer" value="LAYER 4: VRF RANDOMNESS" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="420" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="init_vrf" value="initialize_vrf_state()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="vrf_layer">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="request_vrf" value="request_validator_selection()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="vrf_layer">
+          <mxGeometry x="20" y="130" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="fulfill_vrf" value="fulfill_validator_selection()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="vrf_layer">
+          <mxGeometry x="20" y="200" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="vrf_state" value="ALGORITHM (MVP):&#xa;Pseudo-random selection using:&#xa;  hash(claim_id + timestamp + slot)&#xa;━━━━━━━━━━━━━━━&#xa;FUTURE: Switchboard VRF integration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="vrf_layer">
+          <mxGeometry x="20" y="270" width="380" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 5: DISTRIBUTION MANAGEMENT ========== -->
+        <mxCell id="dist_layer" value="LAYER 5: DISTRIBUTION &amp; PAYOUT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="500" y="520" width="420" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="init_queue" value="initialize_distribution_queue()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="dist_layer">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="add_queue" value="add_to_distribution_queue()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="dist_layer">
+          <mxGeometry x="20" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="distribute" value="distribute_claims()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="dist_layer">
+          <mxGeometry x="220" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="payout" value="payout_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="dist_layer">
+          <mxGeometry x="20" y="200" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dist_state" value="HANDLES OVERSUBSCRIPTION:&#xa;When total_claims &gt; pool_balance&#xa;→ Proportional distribution&#xa;━━━━━━━━━━━━━━━&#xa;NORMAL: Alice gets full 3000 USDC&#xa;OVERSUBSCRIBED: Partial based on ratio" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="dist_layer">
+          <mxGeometry x="20" y="270" width="380" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LAYER 6: YIELD INTEGRATION ========== -->
+        <mxCell id="yield_layer" value="LAYER 6: YIELD OPTIMIZATION" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="960" y="520" width="420" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deposit_yield" value="deposit_to_yield()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="yield_layer">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="withdraw_yield" value="withdraw_from_yield()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="yield_layer">
+          <mxGeometry x="20" y="130" width="380" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="yield_state" value="INTEGRATION: Kamino Finance&#xa;━━━━━━━━━━━━━━━&#xa;STATUS: Placeholder (CPI structure ready)&#xa;━━━━━━━━━━━━━━━&#xa;FUNCTIONALITY:&#xa;• Deposits idle USDC from pool&#xa;• Earns APY on unutilized funds&#xa;• Withdraws when claims need payout&#xa;━━━━━━━━━━━━━━━&#xa;BENEFITS:&#xa;→ Pool growth from yield&#xa;→ Lower premiums for users&#xa;→ Sustainable insurance model" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" vertex="1" parent="yield_layer">
+          <mxGeometry x="20" y="200" width="380" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ========== FLOW ARROWS ========== -->
+        
+        <!-- Pool to Claims -->
+        <mxCell id="flow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d79b00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="pool_layer" target="claims_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="290" />
+              <mxPoint x="480" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow1_label" value="User submits claim" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow1">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="40" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Claims to VRF -->
+        <mxCell id="flow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#b85450;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="claims_layer" target="vrf_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="385" />
+              <mxPoint x="940" y="605" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow2_label" value="Request random validators" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow2">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="60" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- VRF to Validators -->
+        <mxCell id="flow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#9673a6;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="vrf_layer" target="validator_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="500" />
+              <mxPoint x="605" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow3_label" value="Assign 3 validators (Bob, Carol, Eve)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow3">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="40" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Validators to Distribution -->
+        <mxCell id="flow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#82b366;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="validator_layer" target="dist_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="815" y="500" />
+              <mxPoint x="710" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow4_label" value="Claim approved (2/3 validators)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow4">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="-30" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Distribution to Pool (Payout) -->
+        <mxCell id="flow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d6b656;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="dist_layer" target="pool_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="775" />
+              <mxPoint x="145" y="775" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow5_label" value="Payout 3000 USDC to Alice" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow5">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="-30" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Pool to Yield (Dashed) -->
+        <mxCell id="flow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;dashed=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="pool_layer" target="yield_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="385" />
+              <mxPoint x="480" y="900" />
+              <mxPoint x="940" y="900" />
+              <mxPoint x="940" y="605" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow6_label" value="Deposit idle funds to Kamino" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow6">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="80" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Yield to Distribution (Dashed) -->
+        <mxCell id="flow7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;dashed=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="yield_layer" target="dist_layer">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="775" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow7_label" value="Withdraw for payouts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;labelBackgroundColor=#ffffff;" vertex="1" connectable="0" parent="flow7">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== ALICE'S JOURNEY TIMELINE ========== -->
+        <mxCell id="timeline_box" value="ALICE'S INSURANCE JOURNEY (Complete Flow)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="1340" height="260" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day0" value="DAY 0&#xa;━━━━━━━━━&#xa;Alice joins pool&#xa;Pays 100 USDC premium&#xa;━━━━━━━━━&#xa;Balance: 10,000 → 9,900" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="20" y="60" width="120" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day5" value="DAY 5&#xa;━━━━━━━━━&#xa;Alice submits claim&#xa;3000 USDC for medical&#xa;━━━━━━━━━&#xa;Status: Pending" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="180" y="60" width="120" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day5_vrf" value="DAY 5 (VRF)&#xa;━━━━━━━━━&#xa;VRF selects 3 validators&#xa;Bob, Carol, Eve assigned&#xa;━━━━━━━━━&#xa;Random selection" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="340" y="60" width="120" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day7" value="DAY 7-10&#xa;━━━━━━━━━&#xa;Validators review claim&#xa;Bob: ✓ Approve&#xa;Carol: ✓ Approve&#xa;Eve: ✗ Reject&#xa;━━━━━━━━━&#xa;Status: Approved (2/3)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="500" y="60" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day11" value="DAY 11&#xa;━━━━━━━━━&#xa;Claim queued&#xa;Pool has 15k USDC&#xa;━━━━━━━━━&#xa;Status: Queued" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="680" y="60" width="120" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day12" value="DAY 12&#xa;━━━━━━━━━&#xa;Distribution executed&#xa;Normal scenario&#xa;━━━━━━━━━&#xa;Status: Distributed" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" vertex="1" parent="timeline_box">
+          <mxGeometry x="840" y="60" width="120" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="day14" value="DAY 14&#xa;━━━━━━━━━&#xa;Payout to Alice&#xa;Receives 3000 USDC&#xa;━━━━━━━━━&#xa;Balance: 9,900 → 12,900&#xa;Net Profit: +2,900" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="timeline_box">
+          <mxGeometry x="1000" y="60" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="reputation_update" value="REPUTATION UPDATE&#xa;━━━━━━━━━&#xa;Bob: 5000 → 5100 (+100)&#xa;Carol: 5000 → 5100 (+100)&#xa;Eve: 5000 → 4900 (-100)&#xa;       + 5% stake slashed" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;" vertex="1" parent="timeline_box">
+          <mxGeometry x="1180" y="60" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Timeline arrows -->
+        <mxCell id="arrow_0_5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day0" target="day5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_5_vrf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day5" target="day5_vrf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_vrf_7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day5_vrf" target="day7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_7_11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day7" target="day11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_11_12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day11" target="day12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_12_14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="timeline_box" source="day12" target="day14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ========== KEY METRICS ========== -->
+        <mxCell id="metrics_box" value="KEY METRICS &amp; ARCHITECTURE SUMMARY" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1200" width="1340" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric1" value="11 Instructions" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#d6b656;fillColor=#fff2cc;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="40" y="60" width="130" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric2" value="10 Account Types (PDAs)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#82b366;fillColor=#d5e8d4;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="40" y="100" width="190" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric3" value="6 Functional Layers" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="260" y="60" width="170" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric4" value="VRF Random Selection" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="260" y="100" width="180" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric5" value="Yield Optimization (Kamino)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6c8ebf;fillColor=#dae8fc;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="470" y="60" width="220" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric6" value="SPL Token (USDC) Integration" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#d79b00;fillColor=#ffe6cc;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="470" y="100" width="230" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric7" value="Complete Test Suite (10 Phases)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#666666;fillColor=#f5f5f5;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="730" y="60" width="240" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric8" value="Automated Deployment Scripts" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#666666;fillColor=#f5f5f5;fontStyle=1;fontSize=14;shadow=1;" vertex="1" parent="metrics_box">
+          <mxGeometry x="730" y="100" width="240" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metric9" value="ACTORS:&#xa;Dave (Pool Authority), Alice (User)&#xa;Bob, Carol, Eve (Validators)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#666666;fillColor=#ffffff;fontStyle=2;fontSize=11;" vertex="1" parent="metrics_box">
+          <mxGeometry x="1000" y="60" width="280" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LEGEND ========== -->
+        <mxCell id="legend_box" value="DIAGRAM LEGEND" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;startSize=35;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1420" width="1340" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend_solid" value="━━━ Solid Arrow = Main Insurance Flow" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="legend_box">
+          <mxGeometry x="20" y="50" width="280" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend_dashed" value="- - - Dashed Arrow = Yield Management Flow" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="legend_box">
+          <mxGeometry x="320" y="50" width="320" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend_colors" value="Color Coding: Pool=Yellow | Validators=Purple | Claims=Orange | VRF=Red | Distribution=Green | Yield=Blue" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="legend_box">
+          <mxGeometry x="660" y="50" width="660" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ========== FOOTER ========== -->
+        <mxCell id="footer" value="Built with Anchor Framework v0.30.1 on Solana Devnet • MVP Ready for Deployment • Complete Documentation in /docs" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1580" width="1000" height="30" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

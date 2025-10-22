@@ -388,18 +388,18 @@ pub struct FulfillValidatorSelection<'info> {
         seeds = [b"vrf", pool.key().as_ref()],
         bump = vrf_state.bump
     )]
-    pub vrf_state: Account<'info, VrfState>,
+    pub vrf_state: Box<Account<'info, VrfState>>,
 
     #[account(mut)]
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
     #[account(
         seeds = [b"registry", pool.key().as_ref()],
         bump = validator_registry.bump
     )]
-    pub validator_registry: Account<'info, ValidatorRegistry>,
+    pub validator_registry: Box<Account<'info, ValidatorRegistry>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -414,9 +414,9 @@ pub struct InitializeDistributionQueue<'info> {
         seeds = [b"distribution", pool.key().as_ref()],
         bump
     )]
-    pub distribution_queue: Account<'info, DistributionQueue>,
+    pub distribution_queue: Box<Account<'info, DistributionQueue>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -431,10 +431,10 @@ pub struct DistributeClaims<'info> {
         seeds = [b"distribution", pool.key().as_ref()],
         bump = distribution_queue.bump
     )]
-    pub distribution_queue: Account<'info, DistributionQueue>,
+    pub distribution_queue: Box<Account<'info, DistributionQueue>>,
 
     #[account(mut)]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -443,27 +443,27 @@ pub struct DistributeClaims<'info> {
 #[derive(Accounts)]
 pub struct PayoutClaim<'info> {
     #[account(mut)]
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
     #[account(mut)]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         mut,
         seeds = [b"distribution", pool.key().as_ref()],
         bump = distribution_queue.bump
     )]
-    pub distribution_queue: Account<'info, DistributionQueue>,
+    pub distribution_queue: Box<Account<'info, DistributionQueue>>,
 
     #[account(
         mut,
         seeds = [b"vault", pool.key().as_ref()],
         bump
     )]
-    pub pool_vault: Account<'info, TokenAccount>,
+    pub pool_vault: Box<Account<'info, TokenAccount>>,
 
     #[account(mut)]
-    pub claimant_token_account: Account<'info, TokenAccount>,
+    pub claimant_token_account: Box<Account<'info, TokenAccount>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -478,11 +478,11 @@ pub struct AddToDistributionQueue<'info> {
         seeds = [b"distribution", pool.key().as_ref()],
         bump = distribution_queue.bump
     )]
-    pub distribution_queue: Account<'info, DistributionQueue>,
+    pub distribution_queue: Box<Account<'info, DistributionQueue>>,
 
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

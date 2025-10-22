@@ -182,9 +182,9 @@ pub struct InitializeVrfState<'info> {
         seeds = [b"vrf_state", pool.key().as_ref()],
         bump
     )]
-    pub vrf_state: Account<'info, VrfState>,
+    pub vrf_state: Box<Account<'info, VrfState>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
@@ -200,19 +200,19 @@ pub struct RequestValidatorSelection<'info> {
         bump = vrf_state.bump,
         constraint = vrf_state.pool == pool.key() @ NovaError::InactiveCoverage
     )]
-    pub vrf_state: Account<'info, VrfState>,
+    pub vrf_state: Box<Account<'info, VrfState>>,
 
     #[account(mut)]
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         seeds = [b"validator_registry", pool.key().as_ref()],
         bump = validator_registry.bump,
         constraint = validator_registry.pool == pool.key() @ NovaError::InactiveCoverage
     )]
-    pub validator_registry: Account<'info, ValidatorRegistry>,
+    pub validator_registry: Box<Account<'info, ValidatorRegistry>>,
 
     pub clock: Sysvar<'info, Clock>,
 }

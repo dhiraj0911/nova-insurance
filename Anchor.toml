@@ -6,16 +6,16 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-nova_insurance = "HAy7Pjbv9R4oA5hjqsXSRVvuwKaarrYEZ8oR28bAVypz"
+nova_insurance = "4iAKZaYASzqvW17iaZLZCxDxNTYCEJn4STL9RVdqC9V8"
 
 [programs.devnet]
-nova_insurance = "HAy7Pjbv9R4oA5hjqsXSRVvuwKaarrYEZ8oR28bAVypz"
+nova_insurance = "4iAKZaYASzqvW17iaZLZCxDxNTYCEJn4STL9RVdqC9V8"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "https://devnet.helius-rpc.com/?api-key=78f95630-1552-44ce-928b-d936a784e95a"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

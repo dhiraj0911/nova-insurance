@@ -134,10 +134,10 @@ pub struct SubmitClaim<'info> {
         ],
         bump
     )]
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
     #[account(mut)]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         seeds = [b"coverage", claimant.key().as_ref(), pool.key().as_ref()],
@@ -145,7 +145,7 @@ pub struct SubmitClaim<'info> {
         constraint = user_coverage.pool == pool.key() @ NovaError::InactiveCoverage,
         constraint = user_coverage.user == claimant.key() @ NovaError::UnauthorizedValidator
     )]
-    pub user_coverage: Account<'info, UserCoverage>,
+    pub user_coverage: Box<Account<'info, UserCoverage>>,
 
     #[account(mut)]
     pub claimant: Signer<'info>,

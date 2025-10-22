@@ -4,6 +4,26 @@ use anchor_lang::system_program::{transfer, Transfer as SystemTransfer};
 use crate::errors::*;
 use crate::state::*;
 
+/// Initialize validator registry for a pool
+pub fn initialize_validator_registry(
+    ctx: Context<InitializeValidatorRegistry>,
+) -> Result<()> {
+    let validator_registry = &mut ctx.accounts.validator_registry;
+    let pool = &ctx.accounts.pool;
+
+    validator_registry.pool = pool.key();
+    validator_registry.validators = Vec::new();
+    validator_registry.total_validators = 0;
+    validator_registry.bump = *ctx.bumps.get("validator_registry").unwrap();
+
+    msg!(
+        "Validator registry initialized for pool {}",
+        pool.key()
+    );
+
+    Ok(())
+}
+
 /// Stake SOL to become a validator
 pub fn stake_as_validator(
     ctx: Context<StakeAsValidator>,
@@ -257,6 +277,25 @@ fn slash_validator(validator_stake: &mut ValidatorStake, pool: &InsurancePool) -
 // ============================================================================
 
 #[derive(Accounts)]
+pub struct InitializeValidatorRegistry<'info> {
+    #[account(
+        init,
+        payer = authority,
+        space = 8 + ValidatorRegistry::INIT_SPACE,
+        seeds = [b"validator_registry", pool.key().as_ref()],
+        bump
+    )]
+    pub validator_registry: Box<Account<'info, ValidatorRegistry>>,
+
+    pub pool: Box<Account<'info, InsurancePool>>,
+
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
 pub struct StakeAsValidator<'info> {
     #[account(
         init,
@@ -265,16 +304,16 @@ pub struct StakeAsValidator<'info> {
         seeds = [b"validator", validator.key().as_ref(), pool.key().as_ref()],
         bump
     )]
-    pub validator_stake: Account<'info, ValidatorStake>,
+    pub validator_stake: Box<Account<'info, ValidatorStake>>,
 
     #[account(
         mut,
         seeds = [b"validator_registry", pool.key().as_ref()],
         bump = validator_registry.bump
     )]
-    pub validator_registry: Account<'info, ValidatorRegistry>,
+    pub validator_registry: Box<Account<'info, ValidatorRegistry>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(mut)]
     pub validator: Signer<'info>,
@@ -285,7 +324,7 @@ pub struct StakeAsValidator<'info> {
 #[derive(Accounts)]
 pub struct ValidateClaim<'info> {
     #[account(mut)]
-    pub claim_request: Account<'info, ClaimRequest>,
+    pub claim_request: Box<Account<'info, ClaimRequest>>,
 
     #[account(
         mut,
@@ -293,9 +332,9 @@ pub struct ValidateClaim<'info> {
         bump = validator_stake.bump,
         constraint = validator_stake.validator == validator.key() @ NovaError::UnauthorizedValidator
     )]
-    pub validator_stake: Account<'info, ValidatorStake>,
+    pub validator_stake: Box<Account<'info, ValidatorStake>>,
 
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     pub validator: Signer<'info>,
 }

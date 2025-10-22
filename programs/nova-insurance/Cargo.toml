@@ -14,7 +14,10 @@ cpi = ["no-entrypoint"]
 no-entrypoint = []
 no-idl = []
 no-log-ix-name = []
+custom-heap = []
+custom-panic = []
+anchor-debug = []
 
 [dependencies]
-anchor-lang = { workspace = true }
-anchor-spl = { workspace = true, features = ["token"] }
+anchor-lang = "0.28.0"
+anchor-spl = { version = "0.28.0", features = ["token"] }

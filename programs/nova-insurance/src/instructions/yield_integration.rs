@@ -19,17 +19,17 @@ pub struct DepositToYield<'info> {
         seeds = [b"pool", pool.pool_id.as_ref()],
         bump = pool.bump,
     )]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         mut,
         constraint = vault.key() == pool.vault @ NovaError::Unauthorized,
     )]
-    pub vault: Account<'info, TokenAccount>,
+    pub vault: Box<Account<'info, TokenAccount>>,
 
     /// Kamino yield vault token account (placeholder for MVP)
     #[account(mut)]
-    pub yield_vault: Account<'info, TokenAccount>,
+    pub yield_vault: Box<Account<'info, TokenAccount>>,
 
     #[account(
         constraint = authority.key() == pool.authority @ NovaError::Unauthorized
@@ -50,17 +50,17 @@ pub struct WithdrawFromYield<'info> {
         seeds = [b"pool", pool.pool_id.as_ref()],
         bump = pool.bump,
     )]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         mut,
         constraint = vault.key() == pool.vault @ NovaError::Unauthorized,
     )]
-    pub vault: Account<'info, TokenAccount>,
+    pub vault: Box<Account<'info, TokenAccount>>,
 
     /// Kamino yield vault token account (placeholder for MVP)
     #[account(mut)]
-    pub yield_vault: Account<'info, TokenAccount>,
+    pub yield_vault: Box<Account<'info, TokenAccount>>,
 
     /// Kamino vault authority (placeholder)
     /// CHECK: This is a placeholder for Kamino's vault authority

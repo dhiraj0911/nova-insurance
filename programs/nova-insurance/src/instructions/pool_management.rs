@@ -14,7 +14,6 @@ pub fn initialize_pool(
     claim_period: i64,
 ) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
-    let validator_registry = &mut ctx.accounts.validator_registry;
     let clock = Clock::get()?;
 
     // Validate inputs
@@ -49,12 +48,6 @@ pub fn initialize_pool(
     pool.last_yield_update = clock.unix_timestamp;
     pool.created_at = clock.unix_timestamp;
     pool.bump = *ctx.bumps.get("pool").unwrap();
-
-    // Initialize validator registry
-    validator_registry.pool = pool_key;
-    validator_registry.validators = Vec::new();
-    validator_registry.total_validators = 0;
-    validator_registry.bump = *ctx.bumps.get("validator_registry").unwrap();
 
     emit!(PoolCreatedEvent {
         pool_id: pool_key,
@@ -202,7 +195,7 @@ pub struct InitializePool<'info> {
         seeds = [b"pool", authority.key().as_ref()],
         bump
     )]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         init,
@@ -212,31 +205,22 @@ pub struct InitializePool<'info> {
         seeds = [b"vault", pool.key().as_ref()],
         bump
     )]
-    pub pool_vault: Account<'info, TokenAccount>,
+    pub pool_vault: Box<Account<'info, TokenAccount>>,
 
-    #[account(
-        init,
-        payer = authority,
-        space = 8 + ValidatorRegistry::INIT_SPACE,
-        seeds = [b"validator_registry", pool.key().as_ref()],
-        bump
-    )]
-    pub validator_registry: Account<'info, ValidatorRegistry>,
-
-    pub usdc_mint: Account<'info, token::Mint>,
+    /// CHECK: USDC mint address, validated by token program
+    pub usdc_mint: AccountInfo<'info>,
 
     #[account(mut)]
     pub authority: Signer<'info>,
 
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
-    pub rent: Sysvar<'info, Rent>,
 }
 
 #[derive(Accounts)]
 pub struct JoinPool<'info> {
     #[account(mut)]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         init,
@@ -245,20 +229,20 @@ pub struct JoinPool<'info> {
         seeds = [b"coverage", user.key().as_ref(), pool.key().as_ref()],
         bump
     )]
-    pub user_coverage: Account<'info, UserCoverage>,
+    pub user_coverage: Box<Account<'info, UserCoverage>>,
 
     #[account(
         mut,
         constraint = pool_vault.key() == pool.vault @ NovaError::UnauthorizedValidator
     )]
-    pub pool_vault: Account<'info, TokenAccount>,
+    pub pool_vault: Box<Account<'info, TokenAccount>>,
 
     #[account(
         mut,
         constraint = user_token_account.owner == user.key() @ NovaError::UnauthorizedValidator,
         constraint = user_token_account.mint == pool_vault.mint @ NovaError::InvalidPremiumAmount
     )]
-    pub user_token_account: Account<'info, TokenAccount>,
+    pub user_token_account: Box<Account<'info, TokenAccount>>,
 
     #[account(mut)]
     pub user: Signer<'info>,
@@ -270,7 +254,7 @@ pub struct JoinPool<'info> {
 #[derive(Accounts)]
 pub struct PayPremium<'info> {
     #[account(mut)]
-    pub pool: Account<'info, InsurancePool>,
+    pub pool: Box<Account<'info, InsurancePool>>,
 
     #[account(
         mut,
@@ -278,20 +262,20 @@ pub struct PayPremium<'info> {
         bump = user_coverage.bump,
         constraint = user_coverage.pool == pool.key() @ NovaError::InactiveCoverage
     )]
-    pub user_coverage: Account<'info, UserCoverage>,
+    pub user_coverage: Box<Account<'info, UserCoverage>>,
 
     #[account(
         mut,
         constraint = pool_vault.key() == pool.vault @ NovaError::UnauthorizedValidator
     )]
-    pub pool_vault: Account<'info, TokenAccount>,
+    pub pool_vault: Box<Account<'info, TokenAccount>>,
 
     #[account(
         mut,
         constraint = user_token_account.owner == user.key() @ NovaError::UnauthorizedValidator,
         constraint = user_token_account.mint == pool_vault.mint @ NovaError::InvalidPremiumAmount
     )]
-    pub user_token_account: Account<'info, TokenAccount>,
+    pub user_token_account: Box<Account<'info, TokenAccount>>,
 
     #[account(mut)]
     pub user: Signer<'info>,

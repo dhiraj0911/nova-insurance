@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("DB1ZyxKho5hwQPd6r7C1FSTifw5N7G5YYh5gyhvcpGN5");
+declare_id!("4iAKZaYASzqvW17iaZLZCxDxNTYCEJn4STL9RVdqC9V8");
 
 pub mod errors;
 pub mod state;
@@ -68,6 +68,13 @@ pub mod nova_insurance {
         stake_amount: u64,
     ) -> Result<()> {
         instructions::stake_as_validator(ctx, stake_amount)
+    }
+
+    /// Initialize validator registry for a pool
+    pub fn initialize_validator_registry(
+        ctx: Context<InitializeValidatorRegistry>,
+    ) -> Result<()> {
+        instructions::initialize_validator_registry(ctx)
     }
 
     /// Validate a claim (approve or reject)
