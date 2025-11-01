@@ -3,7 +3,6 @@
 ## Massive Achievement Unlocked! 🚀
 
 **80% of the project is now complete!** The core insurance protocol is **fully functional** with all MVP requirements met.
-
 ---
 
 ## ✅ What We Built in Phase 4
