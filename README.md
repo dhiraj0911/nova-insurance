@@ -14,7 +14,7 @@ NOVA enables anyone to create or join micro-insurance pools with monthly premium
 
 ### Protocol Flow
 
-![NOVA Insurance Protocol Flow](https://github.com/dhiraj0911/nova-insurance/blob/main/app/public/flow.png?raw=true)
+![NOVA Insurance Protocol Flow](https://github.com/dhiraj0911/nova-insurance/blob/main/flow.png)
 
 The diagram above illustrates the complete architecture of NOVA Insurance, organized into six interconnected layers:
 
