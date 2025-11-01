@@ -1,265 +1,237 @@
-# 🎉 Phase 4 Complete - NOVA Insurance Protocol
+# NOVA Insurance Protocol
 
-## Massive Achievement Unlocked! 🚀
+**Decentralized P2P Insurance on Solana**
 
-**80% of the project is now complete!** The core insurance protocol is **fully functional** with all MVP requirements met.
----
-
-## ✅ What We Built in Phase 4
-
-### 1. **Validator Staking System**
-- ✅ `stake_as_validator()` instruction
-- ✅ Minimum stake: 0.1 SOL (100M lamports)
-- ✅ ValidatorRegistry tracks up to 100 validators per pool
-- ✅ Automatic registration on staking
-- ✅ SOL transfer to ValidatorStake PDA
-
-### 2. **Claim Validation System**
-- ✅ `validate_claim()` instruction
-- ✅ Validators vote: Approve/Reject with reason
-- ✅ Majority voting (threshold: validators/2 + 1)
-- ✅ Automatic claim finalization
-- ✅ Prevention of double-voting
-
-### 3. **Reputation & Slashing**
-- ✅ Initial reputation: 5,000/10,000
-- ✅ Correct vote: +100 reputation
-- ✅ Incorrect vote: -200 reputation + stake slash
-- ✅ Slash amount scales with pool's min_validators
-- ✅ Economic incentives for honesty
-
-### 4. **Enhanced State**
-- ✅ ValidatorRegistry (3,241 bytes)
-- ✅ Pool initialization creates validator registry
-- ✅ Validators linked to specific pools
+NOVA is a community-driven insurance protocol that democratizes access to catastrophic event coverage through pooled premiums and decentralized claim validation. Built on Solana for speed and low costs, NOVA uses Switchboard VRF for provably fair validator selection and claim distribution.
 
 ---
 
-## 📊 Complete Feature Set
+## The Problem
 
-### 🏊 Pool Management (Phase 2)
-| Feature | Status |
-|---------|--------|
-| Create pools | ✅ |
-| Join pools | ✅ |
-| Pay premiums | ✅ |
-| USDC integration | ✅ |
+Traditional insurance excludes billions of people due to high premiums, complex paperwork, and centralized control. In developing markets, over 90% of the population lacks access to catastrophic coverage for health emergencies, natural disasters, or crop failures.
 
-### 🏥 Claims System (Phase 3)
-| Feature | Status |
-|---------|--------|
-| Submit claims | ✅ |
-| 6 incident types | ✅ |
-| Fraud prevention | ✅ |
-| Time validation | ✅ |
+## Our Solution
 
-### 👥 Validator System (Phase 4)
-| Feature | Status |
-|---------|--------|
-| Stake SOL | ✅ |
-| Validate claims | ✅ |
-| Reputation tracking | ✅ |
-| Economic slashing | ✅ |
-| Majority voting | ✅ |
+NOVA enables anyone to create or join micro-insurance pools with monthly premiums as low as $1-5. When disaster strikes, community validators—randomly selected via VRF—verify claims without bias. If multiple valid claims exceed available funds, VRF ensures fair distribution. No middlemen, no denial letters, no waiting months for payouts.
 
 ---
 
-## 💪 Current Capabilities
+## Core Features
 
-### Complete User Journey
+### 1. **Flexible Insurance Pools**
+Create pools for specific needs: medical emergencies, weather events, crop insurance, or general coverage. Pool creators set premium amounts, coverage limits, and claim validation requirements.
 
-**1. Pool Creator**
-```
-Initialize Pool → Set parameters → Create validator registry
-```
+### 2. **Community Validation**
+Validators stake SOL to participate in claim verification. VRF randomly assigns validators to each claim, preventing collusion. Correct validations earn reputation and fees; dishonest votes result in stake slashing.
 
-**2. User/Member**
-```
-Join Pool → Pay Premium → Submit Claim → Receive Payout*
-```
-*Distribution in Phase 5
+### 3. **Fair Distribution**
+When claims exceed pool funds (oversubscription), VRF randomly selects which claims receive payouts. Future versions will prioritize by medical urgency, payment history, and time in queue.
 
-**3. Validator**
-```
-Stake SOL → Get Assigned to Claims → Vote → Earn Reputation → (Slash if dishonest)
-```
+### 4. **Yield Generation**
+Idle pool funds are deposited into Kamino vaults to earn yield, increasing pool sustainability without raising premiums.
 
-### What Works Right Now
-
-✅ **End-to-End Insurance Flow**:
-1. Create insurance pool with USDC vault ✅
-2. Users join and pay premiums in USDC ✅
-3. Users submit claims for incidents ✅
-4. Validators stake SOL to participate ✅
-5. Validators vote on claims ✅
-6. Claims get approved/rejected by majority ✅
-7. Validator reputation updates automatically ✅
-8. Dishonest validators get slashed ✅
-
-🔜 **Coming in Phase 5**:
-- VRF random validator selection
-- USDC claim distribution
-- Oversubscription handling
-- Frontend interface
+### 5. **On-Chain Transparency**
+Every premium, claim, validation, and payout is recorded on Solana. Users can verify pool health, validator reputation, and distribution fairness at any time.
 
 ---
 
-## 🔐 Security Achievements
+## Technical Architecture
 
-### Multi-Layer Protection
+### Smart Contract Instructions (15 Total)
 
-**Pool Level**:
-- ✅ PDA-based pools (trustless)
-- ✅ USDC vault separation
-- ✅ Member tracking
-- ✅ Active claims monitoring
+#### Pool Management
+- `initialize_pool` - Create new insurance pool with USDC vault
+- `join_pool` - Users join and pay first premium
+- `pay_premium` - Monthly premium payments to maintain coverage
 
-**Claim Level**:
-- ✅ Coverage verification
-- ✅ Amount validation
-- ✅ Time-window enforcement
-- ✅ Pre-join fraud prevention
-- ✅ Validator assignment verification
+#### Claims Processing
+- `submit_claim` - File claim with incident details and evidence
+- `validate_claim` - Validators vote to approve/reject claims
 
-**Validator Level**:
-- ✅ Minimum stake requirement
-- ✅ Double-vote prevention
-- ✅ Assignment verification
-- ✅ Economic slashing
-- ✅ Reputation tracking
+#### Validator System
+- `stake_as_validator` - Stake 0.1+ SOL to become validator
+- `initialize_validator_registry` - Setup validator tracking for pool
+
+#### VRF Integration (Switchboard)
+- `initialize_vrf_state` - Setup VRF for pool
+- `request_validator_selection` - Trigger VRF for random validator assignment
+- `fulfill_validator_selection` - VRF callback assigns validators to claims
+
+#### Distribution & Payouts
+- `initialize_distribution_queue` - Setup payout queue
+- `add_to_distribution_queue` - Queue approved claims
+- `distribute_claims` - Select claims for payout (VRF if oversubscribed)
+- `payout_claim` - Execute USDC transfer to claimant
+
+#### Yield Generation (Kamino)
+- `deposit_to_yield` - Move idle funds to Kamino vault
+- `withdraw_from_yield` - Retrieve funds for claim payouts
+
+### Account Structure
+
+**InsurancePool** - Pool configuration, statistics, vault address  
+**UserCoverage** - Individual user's coverage status and payment history  
+**ClaimRequest** - Claim details, validation votes, status tracking  
+**ValidatorStake** - Validator reputation, stake amount, validation history  
+**ValidatorRegistry** - Pool's active validator list (max 100)  
+**VrfState** - VRF request tracking for validator selection  
+**DistributionQueue** - Approved claims awaiting payout  
+
+### Key Mechanisms
+
+**Fraud Prevention**: Claims must be filed within the pool's claim period and cannot predate the user's join date.
+
+**Reputation System**: Validators start at 5000/10000 reputation. Voting with the majority adds +100; voting against majority subtracts -200 and slashes stake by (min_validators × 2%).
+
+**Claim Status Flow**: `Pending` → `UnderValidation` → `Approved` → `Queued` → `Distributed` (or `Rejected`)
+
+**VRF Randomness**: Used twice—once to select which validators review a claim, and again (if needed) to fairly distribute payouts when claims exceed pool funds.
 
 ---
 
-## 📈 Technical Stats
+## Getting Started
 
+### Prerequisites
+- Rust 1.70+
+- Solana CLI 1.18+
+- Anchor 0.28.0
+- Node.js 16+
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/nova-insurance
+cd nova-insurance
+
+# Install dependencies
+yarn install
+
+# Build program
+anchor build
+
+# Run tests
+anchor test --skip-local-validator
 ```
-Total Accounts:         7 types
-Total Instructions:     6 functions
-Total Events:          6 emitted
-Total Enums:           4 types
-Error Codes:           9 custom
-Lines of Code:         ~1,100+
-Account Contexts:      6 validated
-Max Validators/Pool:   100
-Min Stake:             0.1 SOL
-Reputation Range:      0 - 10,000
-Build Time:            ~19 seconds
-Compilation Status:    ✅ PASS
+
+### Deployment
+
+```bash
+# Deploy to devnet
+anchor deploy --provider.cluster devnet
+
+# Update program ID in lib.rs and Anchor.toml
+anchor keys list
 ```
 
----
+### Configuration
 
-## 🎯 MVP Checklist
-
-| Requirement | Status | Phase |
-|-------------|--------|-------|
-| Pool creation | ✅ | 2 |
-| Premium collection | ✅ | 2 |
-| Claim submission | ✅ | 3 |
-| Validator staking | ✅ | 4 |
-| Claim validation | ✅ | 4 |
-| Reputation system | ✅ | 4 |
-| Slashing mechanism | ✅ | 4 |
-| VRF integration | ⏳ | 5 |
-| Claim distribution | ⏳ | 5 |
-| Frontend | ⏳ | 5 |
-
-**MVP Progress: 7/10 Complete (70%)**
-**Smart Contract Core: 100% Complete!** 🎉
+Update `Anchor.toml` with your:
+- Solana RPC endpoint
+- Wallet path
+- Program ID
 
 ---
 
-## 🚀 What Phase 5 Will Add
+## Usage Example
 
-### Optional Enhancements
+```typescript
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { NovaInsurance } from "../target/types/nova_insurance";
 
-1. **Switchboard VRF**
-   - Random validator selection
-   - Fair distribution when oversubscribed
-   - True decentralization
+// Initialize pool for medical emergencies
+await program.methods
+  .initializePool(
+    { medical: {} },  // pool_type
+    5_000_000,        // 5 USDC premium
+    50_000_000,       // 50 USDC max coverage
+    3,                // minimum 3 validators
+    2_592_000         // 30-day claim window
+  )
+  .accounts({ ... })
+  .rpc();
 
-2. **Claim Distribution**
-   - USDC payouts to approved claims
-   - Pool balance management
-   - Distribution queuing
+// User joins pool
+await program.methods
+  .joinPool(50_000_000) // 50 USDC coverage
+  .accounts({ ... })
+  .rpc();
 
-3. **Frontend & Tests**
-   - User interface
-   - Integration tests
-   - Demo preparation
-
-**Note**: The core protocol is already functional without Phase 5!
-
----
-
-## 🏆 Achievement Unlocked
-
-### What Makes This Special
-
-1. **Complete Economic System**: Premiums → Pool → Claims → Validators → Reputation
-2. **Real Stake**: Validators risk actual SOL
-3. **Fraud Resistant**: Multiple layers of time & economic validation
-4. **Scalable**: Up to 100 validators per pool
-5. **Gas Efficient**: Optimized account sizes
-6. **Composable**: PDA-based for DeFi integration
-
-### Innovation Highlights
-
-- **Reputation-based governance** with economic consequences
-- **Time-based fraud prevention** (pre-join incident blocking)
-- **Majority voting** with automatic finalization
-- **Progressive slashing** based on pool requirements
-- **Comprehensive event tracking** for transparency
-
----
-
-## 📝 Files Created This Phase
-
-```
-programs/nova-insurance/src/instructions/
-├── validator_management.rs       ✅ 300+ lines
-
-Updated:
-├── pool_management.rs            ✅ Enhanced with registry
-├── state.rs                      ✅ Added ValidatorRegistry
-├── lib.rs                        ✅ Added 2 instructions
-├── instructions/mod.rs           ✅ Exports updated
-
-Documentation:
-├── PHASE4-COMPLETE.md            ✅ Comprehensive docs
-├── PROGRESS.md                   ✅ Updated to 80%
+// Submit claim
+await program.methods
+  .submitClaim(
+    { medicalEmergency: {} },
+    25_000_000,  // 25 USDC requested
+    incidentTimestamp,
+    "ipfs://QmHash..." // evidence hash
+  )
+  .accounts({ ... })
+  .rpc();
 ```
 
 ---
 
-## 🎊 Ready for Prime Time!
+## Security Features
 
-The NOVA Insurance Protocol smart contracts are **production-ready** for the core functionality:
-
-✅ Users can insure themselves
-✅ Validators can earn reputation
-✅ Claims are processed fairly
-✅ Fraud is prevented
-✅ All on-chain and transparent
-
-**Next**: Add VRF for true randomness, claim distribution for payouts, and a frontend for easy interaction.
+✅ **PDA-based account derivation** - Trustless account verification  
+✅ **Time-based validation** - Claims must be within coverage period  
+✅ **Economic security** - Validators risk real SOL stake  
+✅ **Overflow protection** - Safe arithmetic operations  
+✅ **Authority checks** - Only authorized users can perform sensitive actions  
+✅ **Token validation** - USDC mint verification on all transfers  
 
 ---
 
-## 💡 Key Takeaways
+## Roadmap
 
-1. **Functional MVP**: Core insurance logic is complete
-2. **Security First**: Multiple protection layers
-3. **Economic Incentives**: Validators have skin in the game
-4. **Scalable Design**: Supports 100 validators per pool
-5. **Well Documented**: Every phase has complete docs
+**Phase 1** ✅ - Core account structures and error handling  
+**Phase 2** ✅ - Pool management and premium collection  
+**Phase 3** ✅ - Claims submission and validation system  
+**Phase 4** ✅ - Validator staking and reputation  
+**Phase 5** ✅ - VRF integration for fairness  
+**Phase 6** ✅ - Distribution queue and payouts  
+**Phase 7** (Current) - Kamino yield integration  
+**Phase 8** (Next) - Frontend development, testing, and mainnet launch  
 
 ---
 
-**Status**: Phase 4 Complete ✅
-**Progress**: 80% (4/5 phases) 📊
-**Next Phase**: VRF & Distribution (optional enhancements) 🎯
-**Build Status**: ✅ SUCCESS (19s)
-**Core Protocol**: 🎉 FULLY FUNCTIONAL!
+## Project Stats
 
-Ready to proceed with Phase 5 when you are! 🚀
+- **Instructions**: 15 public functions
+- **Accounts**: 7 core data structures
+- **Events**: 10+ emitted events
+- **Lines of Code**: 1,800+ (Rust program)
+- **Program Size**: ~597 KB compiled
+- **Build Time**: ~19 seconds
+
+---
+
+## Technology Stack
+
+- **Blockchain**: Solana (Devnet currently)
+- **Framework**: Anchor 0.28.0
+- **Language**: Rust (on-chain) + TypeScript (tests)
+- **Token Standard**: SPL Token (USDC)
+- **Randomness**: Switchboard VRF
+- **Yield**: Kamino Finance integration (in progress)
+
+---
+
+## Contributing
+
+This is a hackathon project currently under active development. Contributions, suggestions, and feedback are welcome! Please open an issue or submit a pull request.
+
+---
+
+## License
+
+ISC License - See LICENSE file for details
+
+---
+
+## Contact & Links
+
+**Program ID (Devnet)**: `4iAKZaYASzqvW17iaZLZCxDxNTYCEJn4STL9RVdqC9V8`
+
+Built with ❤️ for the Solana ecosystem
