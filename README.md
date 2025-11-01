@@ -12,6 +12,19 @@ Traditional insurance excludes billions of people due to high premiums, complex 
 
 NOVA enables anyone to create or join micro-insurance pools with monthly premiums as low as $1-5. When disaster strikes, community validators—randomly selected via VRF—verify claims without bias. If multiple valid claims exceed available funds, VRF ensures fair distribution. No middlemen, no denial letters, no waiting months for payouts. Using USDC eliminates volatility risk, making coverage predictable and globally accessible while enabling seamless cross-border payouts without intermediaries.
 
+### Protocol Flow
+
+![NOVA Insurance Protocol Flow](https://github.com/dhiraj0911/nova-insurance/blob/main/app/public/flow.png?raw=true)
+
+The diagram above illustrates the complete architecture of NOVA Insurance, organized into six interconnected layers:
+
+- **Layer 1: Pool Management** - Create and join insurance pools with USDC-based premiums
+- **Layer 2: Validator Management** - Stake-based validator system with reputation tracking
+- **Layer 3: Claims Management** - Submit claims with evidence and status tracking
+- **Layer 4: VRF Randomness** - Switchboard VRF for fair validator selection and claim distribution
+- **Layer 5: Distribution & Payout** - Queue management and USDC payouts to claimants
+- **Layer 6: Yield Optimization** - Kamino Finance integration for idle fund yield generation
+
 ---
 
 ## Core Features
