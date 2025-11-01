@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="28.2.8">
+  <diagram name="Nova Insurance Complete Architecture" id="8LsCCjz-Zy6LlzZwlBDC">
+    <mxGraphModel dx="1975" dy="1005" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-1" value="NOVA INSURANCE - Decentralized P2P Insurance Protocol on Solana" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=20;fontStyle=1;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="20" width="1000" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-2" value="LAYER 1: POOL MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="170" y="170" width="420" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-3" value="initialize_pool()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-2" vertex="1">
+          <mxGeometry x="20" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-4" value="join_pool()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-2" vertex="1">
+          <mxGeometry x="220" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-5" value="pay_premium()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-2" vertex="1">
+          <mxGeometry x="20" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-6" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• InsurancePool PDA&#xa;• UserCoverage PDA&#xa;• Pool Vault (SPL Token)&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Total Pooled: Sum of all premiums&#xa;• Active Members: Users with coverage&#xa;• Pool Authority: Admin (Dave)&#xa;• Coverage Period: Start/End dates&#xa;• Min/Max Coverage: Limits per user" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-2" vertex="1">
+          <mxGeometry x="30" y="200" width="380" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-7" value="LAYER 2: VALIDATOR MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="645" y="170" width="420" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-8" value="stake_as_validator()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-7" vertex="1">
+          <mxGeometry x="20" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-9" value="validate_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-7" vertex="1">
+          <mxGeometry x="220" y="60" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-10" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• ValidatorStake PDA&#xa;• ValidatorRegistry PDA&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Reputation Score: 0-10000&#xa;  - Increases: +100 per correct validation&#xa;  - Decreases: -100 per wrong validation&#xa;• Stake Amount: SOL locked by validator&#xa;• Validation Count: Total validations&#xa;• Slashing: 5% of stake on false validation&#xa;━━━━━━━━━━━━━━━&#xa;VALIDATORS:&#xa;Bob: reputation_score = 5000&#xa;Carol: reputation_score = 5000&#xa;Eve: reputation_score = 5000" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-7" vertex="1">
+          <mxGeometry x="20" y="130" width="380" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-11" value="LAYER 3: CLAIMS MANAGEMENT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="1105" y="160" width="480" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-12" value="submit_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-11" vertex="1">
+          <mxGeometry x="50" y="50" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-13" value="ACCOUNT STATES:&#xa;━━━━━━━━━━━━━━━&#xa;• ClaimRequest PDA&#xa;━━━━━━━━━━━━━━━&#xa;CLAIM STATUS FLOW:&#xa;Pending → UnderValidation → Approved → Queued → Distributed&#xa;        ↓ (if rejected)&#xa;    Rejected&#xa;━━━━━━━━━━━━━━━&#xa;KEY DATA:&#xa;• Amount Requested: USDC amount&#xa;• Validators Assigned: Via VRF (3 random)&#xa;• Validations: Array of validator votes&#xa;• Approvals/Rejections: Vote counts&#xa;• Claim Timestamp: Submission time&#xa;• Evidence Hash: IPFS/Arweave link&#xa;━━━━━━━━━━━━━━━&#xa;EXAMPLE: Alice&#39;s Medical Claim&#xa;• Amount: 3000 USDC&#xa;• Status: Pending → Approved&#xa;• Validators: Bob, Carol, Eve" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-11" vertex="1">
+          <mxGeometry x="40" y="120" width="410" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="URbGNKF4-zkgtvnPcSKL-11" source="URbGNKF4-zkgtvnPcSKL-13" target="URbGNKF4-zkgtvnPcSKL-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-14" value="LAYER 4: VRF RANDOMNESS" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="135" y="650" width="440" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-15" value="initialize_vrf_state()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-14" vertex="1">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-16" value="request_validator_selection()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-14" vertex="1">
+          <mxGeometry x="20" y="130" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-17" value="fulfill_validator_selection()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-14" vertex="1">
+          <mxGeometry x="20" y="200" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-18" value="ALGORITHM (MVP):&#xa;Pseudo-random selection using:&#xa;  hash(claim_id + timestamp + slot)&#xa;━━━━━━━━━━━━━━━&#xa;FUTURE: Switchboard VRF integration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-14" vertex="1">
+          <mxGeometry x="20" y="260" width="380" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-19" value="LAYER 5: DISTRIBUTION &amp; PAYOUT" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="645" y="910" width="420" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-20" value="initialize_distribution_queue()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-19" vertex="1">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-21" value="add_to_distribution_queue()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-19" vertex="1">
+          <mxGeometry x="20" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-22" value="distribute_claims()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-19" vertex="1">
+          <mxGeometry x="220" y="130" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-23" value="payout_claim()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-19" vertex="1">
+          <mxGeometry x="20" y="200" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-24" value="HANDLES OVERSUBSCRIPTION:&#xa;When total_claims &gt; pool_balance&#xa;→ Proportional distribution&#xa;━━━━━━━━━━━━━━━&#xa;NORMAL: Alice gets full 3000 USDC&#xa;OVERSUBSCRIBED: Partial based on ratio" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-19" vertex="1">
+          <mxGeometry x="20" y="270" width="380" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-25" value="LAYER 6: YIELD OPTIMIZATION" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+          <mxGeometry x="1200" y="600" width="420" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-26" value="deposit_to_yield()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-25" vertex="1">
+          <mxGeometry x="20" y="60" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-27" value="withdraw_from_yield()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;shadow=1;" parent="URbGNKF4-zkgtvnPcSKL-25" vertex="1">
+          <mxGeometry x="20" y="130" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-28" value="INTEGRATION: Kamino Finance&#xa;━━━━━━━━━━━━━━━&#xa;STATUS: Placeholder (CPI structure ready)&#xa;━━━━━━━━━━━━━━━&#xa;FUNCTIONALITY:&#xa;• Deposits idle USDC from pool&#xa;• Earns APY on unutilized funds&#xa;• Withdraws when claims need payout&#xa;━━━━━━━━━━━━━━━&#xa;BENEFITS:&#xa;→ Pool growth from yield&#xa;→ Lower premiums for users&#xa;→ Sustainable insurance model" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;fontColor=#333333;fontSize=11;" parent="URbGNKF4-zkgtvnPcSKL-25" vertex="1">
+          <mxGeometry x="20" y="200" width="380" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#b85450;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1085" y="510" />
+              <mxPoint x="1085" y="730" />
+            </Array>
+            <mxPoint x="575" y="730" as="targetPoint" />
+            <mxPoint x="1105" y="510" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-32" value="Request random validators" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-31" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="-253" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#9673a6;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" parent="1" target="URbGNKF4-zkgtvnPcSKL-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="600" />
+              <mxPoint x="750" y="600" />
+            </Array>
+            <mxPoint x="395" y="650" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-34" value="Assign 3 validators (Bob, Carol, Eve)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-33" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="-29" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#82b366;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.643;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="URbGNKF4-zkgtvnPcSKL-19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="915" y="530" as="sourcePoint" />
+            <mxPoint x="915" y="1040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-36" value="Claim approved (2/3 validators)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-35" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="-27" y="-41" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="1170" />
+              <mxPoint x="80" y="430" />
+            </Array>
+            <mxPoint x="640" y="1170" as="sourcePoint" />
+            <mxPoint x="175" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-38" value="Payout 3000 USDC to Alice" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-37" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="167" y="58" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="445" />
+              <mxPoint x="625" y="840" />
+            </Array>
+            <mxPoint x="590" y="445" as="sourcePoint" />
+            <mxPoint x="1205" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-40" value="Deposit idle funds to Kamino" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-39" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="80" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;dashed=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="882" />
+              <mxPoint x="1120" y="1138" />
+            </Array>
+            <mxPoint x="1200" y="882" as="sourcePoint" />
+            <mxPoint x="1065" y="1137.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-42" value="Withdraw for payouts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=2;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-41" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="18" y="72" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="521" y="120" />
+              <mxPoint x="1185" y="120" />
+            </Array>
+            <mxPoint x="521" y="170" as="sourcePoint" />
+            <mxPoint x="1185" y="158" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="URbGNKF4-zkgtvnPcSKL-30" value="User submits claim" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" parent="URbGNKF4-zkgtvnPcSKL-29" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="40" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
