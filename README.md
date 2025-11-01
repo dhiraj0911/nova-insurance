@@ -1,10 +1,8 @@
 # NOVA Insurance Protocol
 
-**Decentralized P2P Insurance on Solana**
+**Decentralized Micro Insurance on Solana**
 
-NOVA is a community-driven insurance protocol that democratizes access to catastrophic event coverage through pooled premiums and decentralized claim validation. Built on Solana for speed and low costs, NOVA uses Switchboard VRF for provably fair validator selection and claim distribution.
-
----
+NOVA is a decentralized micro-insurance protocol making disaster protection accessible to everyone. Built on Solana for speed and low fees, and powered by Switchboard VRF for provable fairness, NOVA lets anyone create or join affordable insurance pools with transparent, community-verified claims and instant USDC payouts — no volatility, no middlemen.
 
 ## The Problem
 
@@ -12,7 +10,7 @@ Traditional insurance excludes billions of people due to high premiums, complex 
 
 ## Our Solution
 
-NOVA enables anyone to create or join micro-insurance pools with monthly premiums as low as $1-5. When disaster strikes, community validators—randomly selected via VRF—verify claims without bias. If multiple valid claims exceed available funds, VRF ensures fair distribution. No middlemen, no denial letters, no waiting months for payouts.
+NOVA enables anyone to create or join micro-insurance pools with monthly premiums as low as $1-5. When disaster strikes, community validators—randomly selected via VRF—verify claims without bias. If multiple valid claims exceed available funds, VRF ensures fair distribution. No middlemen, no denial letters, no waiting months for payouts. Using USDC eliminates volatility risk, making coverage predictable and globally accessible while enabling seamless cross-border payouts without intermediaries.
 
 ---
 
@@ -37,7 +35,7 @@ Every premium, claim, validation, and payout is recorded on Solana. Users can ve
 
 ## Technical Architecture
 
-### Smart Contract Instructions (15 Total)
+### Smart Contract Instructions
 
 #### Pool Management
 - `initialize_pool` - Create new insurance pool with USDC vault
@@ -172,47 +170,12 @@ await program.methods
 
 ---
 
-## Security Features
-
-✅ **PDA-based account derivation** - Trustless account verification  
-✅ **Time-based validation** - Claims must be within coverage period  
-✅ **Economic security** - Validators risk real SOL stake  
-✅ **Overflow protection** - Safe arithmetic operations  
-✅ **Authority checks** - Only authorized users can perform sensitive actions  
-✅ **Token validation** - USDC mint verification on all transfers  
-
----
-
-## Roadmap
-
-**Phase 1** ✅ - Core account structures and error handling  
-**Phase 2** ✅ - Pool management and premium collection  
-**Phase 3** ✅ - Claims submission and validation system  
-**Phase 4** ✅ - Validator staking and reputation  
-**Phase 5** ✅ - VRF integration for fairness  
-**Phase 6** ✅ - Distribution queue and payouts  
-**Phase 7** (Current) - Kamino yield integration  
-**Phase 8** (Next) - Frontend development, testing, and mainnet launch  
-
----
-
-## Project Stats
-
-- **Instructions**: 15 public functions
-- **Accounts**: 7 core data structures
-- **Events**: 10+ emitted events
-- **Lines of Code**: 1,800+ (Rust program)
-- **Program Size**: ~597 KB compiled
-- **Build Time**: ~19 seconds
-
----
-
 ## Technology Stack
 
 - **Blockchain**: Solana (Devnet currently)
 - **Framework**: Anchor 0.28.0
 - **Language**: Rust (on-chain) + TypeScript (tests)
-- **Token Standard**: SPL Token (USDC)
+- **Token Standard**: SPL Token (USDC- Stablecoin)
 - **Randomness**: Switchboard VRF
 - **Yield**: Kamino Finance integration (in progress)
 
